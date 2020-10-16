@@ -38,11 +38,19 @@ app.put()('/done/:id', (req, res)=>{
 
 // DELETE - DELETE 
 app.delete('/:id', (req, res)=>{
+    console.log('/todo/:id DELETE express call started');
     // define query text
+    let recordID = req.params.id // define item ID parameter
+    let queryText = `DELETE FROM "todoList" WHERE "id" = $1`
     // add log information to help with troubleshooting
-    // define pool request
-    //add catch
-})
+    pool.query(queryText, [recordID]).then((result)=>{
+        console.log('Delete success!');
+        res.sendStatus(200);
+    }).catch((error)=>{
+        console.log('delete fauled', error);
+        res.sendStatus(500);
+    })
+});
 
 
 module.exports = router;
