@@ -10,7 +10,7 @@ app.use( bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('server/public'));
 
-app.use('/', router);
+app.use('/toDo', router);
 
 app.listen(PORT, ()=>{
     console.log('up and running', PORT);
