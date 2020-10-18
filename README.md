@@ -8,10 +8,6 @@ Duration: Weekend
 This is a simple 'to do' app project I created. This app includes a server(express), and a database(SQL) that allows a client to create, read, update, or delete task items on site. 
 
 
-## Site image:
-![SITE_IMAGE](/instructions/siteImg.png =400x400)
-
-
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/en/)
