@@ -2,22 +2,30 @@ body{
     background-color: lightblue;
     font-family:Verdana;
 }
+/* spacing for div that contains the data table */
 #tableWrapper{
     max-width: 90%;
     padding-left: 5%;
 }
+/* set a background color for the table, and default font color of white  */
 .table{
     
     background-color: lightslategrey;
     color: white;
 }
+/* set div spacing for input form area */
 #toDoNote{
     max-width: 50%;
 }
+/*  input area wrap. align on page and set spacing */
 #noteWrap{
     padding-left: 10%;
     padding-right: 10%;
     padding-top: 3%;
     padding-bottom: 3%;
     min-width: 90%;
+}
+/* when an item has a green background from bootstrap success, give font better contrast */
+.table-success{ 
+    color: grey;
 }

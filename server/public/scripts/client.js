@@ -10,8 +10,8 @@ function onReady() {
     $('#submitItem').on('click', addToDo)
     // click listener for complete task. 
     $('#output').on('change', '.checkbox', getCompStatus);
-    $('#output').on('click', '.delBtn', deleteItem)
     // click listen for delete option
+    $('#output').on('click', '.delBtn', deleteItem)
 }
 
 // this function will create an ajax request to import the current list of to items in the SQL db
@@ -33,7 +33,6 @@ function appendToDom(data) {
     let tableRow = $('#output')
         tableRow.empty(); // clear out appended rows before refreshed data is pulled in
     data.forEach(element => {
-        let checkBoxState = ''
         tableRow.append(
             `
             <tr data-done='${element.done}' data-id='${element.id}'>
@@ -43,9 +42,10 @@ function appendToDom(data) {
             </tr>
             `
         )   
-        if (element.done === true) {
+        if (element.done === true) {  // perhaps a messy way to access this option during the draw function like this
+                                      // this will check the box true if the item is marked as such in the sql DB
             $(`#box${element.id}`).prop('checked', true);
-            styleCompleted(element.id);
+            styleCompleted(element.id); // passing in the ID which the function will use to locate and flip the class on the DOM
         }
     });
 }
@@ -106,7 +106,7 @@ function getCompStatus() {
 }
 
 
-function styleCompleted(elementID) {
+function styleCompleted(elementID) {  // called during append function loop. 
     let el = $(`#box${elementID}`)
-    el.closest('tr').toggleClass('table-success');
+    el.closest('tr').addClass('table-success'); //toggles table row background color using bootstrap
 }

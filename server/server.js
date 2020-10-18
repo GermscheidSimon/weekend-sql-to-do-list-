@@ -13,5 +13,5 @@ app.use(express.static('server/public'));
 app.use('/toDo', router);
 
 app.listen(PORT, ()=>{
-    console.log('up and running', PORT);
+    console.log('up and running on port:', PORT);
 });

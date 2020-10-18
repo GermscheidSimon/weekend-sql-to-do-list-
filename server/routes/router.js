@@ -8,8 +8,9 @@ const pool = require('../modules/pool')
 router.post('/', (req, res)=>{
     console.log('toDo POST request started');
     
-    let itemToDo = req.body.itemToDo
-    let queryText = `INSERT INTO "toDoList" ("itemToDo")
+    let itemToDo = req.body.itemToDo // obj containing data needed to add item to db
+                                     // the default state of the done field is false. Can be checked off after being added to the page
+    let queryText = `INSERT INTO "toDoList" ("itemToDo") 
                      VALUES ($1);`;
     pool.query(queryText, [itemToDo]).then((result)=>{
         console.log('result from POST', result.rowCount, 'rows inserted');
@@ -18,9 +19,6 @@ router.post('/', (req, res)=>{
         console.log('error from POST', error);
         res.sendStatus(500)
     });
-    // add log information to help with troubleshooting
-    // define pool request
-    //add catch
 });
 
 // GET - READ
@@ -43,15 +41,17 @@ router.get('/', (req, res)=>{
 router.put('/done/:id', (req, res)=>{
     console.log('/todo/done/:id PUT request call started');
 
-    let id = req.params.id;
-    let state = req.body.state;
+    let id = req.params.id; // id referenced from serial ID in DB
+    let state = req.body.state;  // state of task completion for given ID
     console.log('id and state to update', id, state);
-    let queryText = '';
+    let queryText = ''; // declare query text for below conditional
+    // set query based on state.
     if (state === 'false') {
         queryText = `UPDATE "toDoList" SET "done" = 'true' WHERE "id" = $1;`
     } else if (state === 'true') {
         queryText = `UPDATE "toDoList" SET "done" = 'false' WHERE "id" = $1;`
     }
+    // start query promise
     pool.query(queryText, [id]).then((result)=>{
         console.log('result from put', result.command, 'used to update', result.rowCount, 'rows');
         res.sendStatus(200);
