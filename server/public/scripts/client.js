@@ -8,7 +8,9 @@ function onReady() {
     getListToDo(); // get tabel from db on page load
 
     // click listener for submit button
-    // click listener for complete task. Is this going to be a div?
+    $('#submitItem').on('click', addToDo)
+    // click listener for complete task. 
+    $('#output').on('click', '.mkDone', getCompStatus);
     // click listen for delete option
 }
 
@@ -29,14 +31,15 @@ function getListToDo() {
 function appendToDom(data) {
     console.log(data);
     let tableRow = $('#output')
+        tableRow.empty(); // clear out appended rows before refreshed data is pulled in
     data.forEach(element => {
         tableRow.append(
             `
-            <tr>
-            <td>${element.itemToDo}</td>
-            <td>${element.done}</td>
+            <tr data-done='${element.done}' data-id='${element.id}'>
+                <td>${element.itemToDo}</td>
+                <td>${element.done} </td>
+                <td><button class="mkDone">Mark Done</button></td>
             </tr>
-            
             `
         )
     });
@@ -59,10 +62,11 @@ function deleteItem() {
 }
 // this function will create and ajax request to update the "done" column for a given to do item
 // then call back the get function and append function to update the DOM
-function toDone() {
+function updateCompletion(id, state) {
     $.ajax({
         method: 'PUT',
-        url: `/done/${id}`
+        url: `/todo/done/${id}`,
+        data: {state: state}
     }).then( (response) => {
         console.log('response from PUT request', response);
         getListToDo()
@@ -73,19 +77,27 @@ function toDone() {
 // this function will create a POST ajax request to add a new record to the database 
 // then call back the get function and append function to update the DOM
 function addToDo() {
-
-    let toDoItem = {
-
-    }
+    let noteInput = $('#toDoNote').val() // grab the note input text
+    let recordObj = {  
+        itemToDo: noteInput
+    } // this obj contains the information required to add this item to SQL DB
 
     $.ajax({
         method: 'POST',
         url: 'toDo',
-        data: toDoItem
+        data: recordObj 
     }).then( (response) => {
         console.log('response from POST request', response);
         getListToDo()
     }).catch( (error) => {
         console.log('error from POST request', error); 
     })
+}
+
+function getCompStatus() {
+    let idOfItem = $(this).closest('tr').data('id'); // grab the ID added during appendToDom function. Stored in row header.
+    console.log(idOfItem);
+    let toDoState = $(this).closest('tr').data('done'); // grab the state of completion added during appendToDom function. Stored in row header.
+    console.log(toDoState);
+    updateCompletion(idOfItem, toDoState); // pass off this information to the the updateCompletion function
 }

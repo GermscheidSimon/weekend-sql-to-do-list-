@@ -33,11 +33,18 @@ router.get('/', (req, res)=>{
 // PUT - UPDATE
 router.put('/done/:id', (req, res)=>{
     console.log('/todo/done/:id PUT request call started');
-    
-    let queryText = `UPDATE "toDoList" SET "done" = 'true' WHERE "id" = $1;`
 
-    pool.query(queryText, [req.params.id]).then((result)=>{
-        console.log('result from put', result);
+    let id = req.params.id;
+    let state = req.body.state;
+    console.log('id and state to update', id, state);
+    let queryText = '';
+    if (state === 'false') {
+        queryText = `UPDATE "toDoList" SET "done" = 'true' WHERE "id" = $1;`
+    } else if (state === 'true') {
+        queryText = `UPDATE "toDoList" SET "done" = 'false' WHERE "id" = $1;`
+    }
+    pool.query(queryText, [id]).then((result)=>{
+        console.log('result from put', result.command, 'used to update', result.rowCount, 'rows');
         res.sendStatus(200);
     }).catch((error)=>{
         console.log('error from POST', error);
