@@ -10,7 +10,7 @@ function onReady() {
     // click listener for submit button
     $('#submitItem').on('click', addToDo)
     // click listener for complete task. 
-    $('#output').on('click', '.mkDone', getCompStatus);
+    $('#output').on('change', '.checkbox', getCompStatus);
     $('#output').on('click', '.delBtn', deleteItem)
     // click listen for delete option
 }
@@ -34,15 +34,19 @@ function appendToDom(data) {
     let tableRow = $('#output')
         tableRow.empty(); // clear out appended rows before refreshed data is pulled in
     data.forEach(element => {
+        let checkBoxState = ''
         tableRow.append(
             `
             <tr data-done='${element.done}' data-id='${element.id}'>
                 <td>${element.itemToDo}</td>
-                <td>${element.done} </td>
-                <td><button class="mkDone">Mark Done</button><button class="delBtn">Delete</button></td>
+                <td><input type="checkbox" id='box${element.id}' class='checkbox'></td>
+                <td><button class="delBtn">Delete</button></td>
             </tr>
             `
-        )
+        )   
+        if (element.done === true) {
+            $(`#box${element.id}`).prop('checked', true);
+        }
     });
 }
 
@@ -95,6 +99,8 @@ function addToDo() {
 }
 
 function getCompStatus() {
+    console.log($(this));
+    
     let idOfItem = $(this).closest('tr').data('id'); // grab the ID added during appendToDom function. Stored in row header.
     console.log(idOfItem);
     let toDoState = $(this).closest('tr').data('done'); // grab the state of completion added during appendToDom function. Stored in row header.
