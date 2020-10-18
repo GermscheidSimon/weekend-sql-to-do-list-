@@ -39,7 +39,7 @@ function appendToDom(data) {
             <tr data-done='${element.done}' data-id='${element.id}'>
                 <td>${element.itemToDo}</td>
                 <td><input type="checkbox" id='box${element.id}' class='checkbox'></td>
-                <td><button class="delBtn">Delete</button></td>
+                <td><button class="delBtn btn-danger">Delete</button></td>
             </tr>
             `
         )   
