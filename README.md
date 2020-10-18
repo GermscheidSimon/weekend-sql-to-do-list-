@@ -9,8 +9,8 @@ This is a simple 'to do' app project I created. This app includes a server(expre
 
 
 ## Site image:
-
 ![SITE_IMAGE](/instructions/siteImg.png =400x400)
+
 
 ### Prerequisites
 
