@@ -6,7 +6,6 @@ $(document).ready(onReady);
 function onReady() {
     console.log('jq loaded');
     getListToDo(); // get tabel from db on page load
-
     // click listener for submit button
     $('#submitItem').on('click', addToDo)
     // click listener for complete task. 
@@ -46,6 +45,7 @@ function appendToDom(data) {
         )   
         if (element.done === true) {
             $(`#box${element.id}`).prop('checked', true);
+            styleCompleted(element.id);
         }
     });
 }
@@ -93,17 +93,20 @@ function addToDo() {
     }).then( (response) => {
         console.log('response from POST request', response);
         getListToDo()
+        $('#toDoNote').val('')// empty input on successful POST 
     }).catch( (error) => {
         console.log('error from POST request', error); 
     })
 }
 
 function getCompStatus() {
-    console.log($(this));
-    
     let idOfItem = $(this).closest('tr').data('id'); // grab the ID added during appendToDom function. Stored in row header.
-    console.log(idOfItem);
     let toDoState = $(this).closest('tr').data('done'); // grab the state of completion added during appendToDom function. Stored in row header.
-    console.log(toDoState);
     updateCompletion(idOfItem, toDoState); // pass off this information to the the updateCompletion function
+}
+
+
+function styleCompleted(elementID) {
+    let el = $(`#box${elementID}`)
+    el.closest('tr').toggleClass('table-success');
 }
