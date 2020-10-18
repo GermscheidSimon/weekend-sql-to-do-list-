@@ -1,7 +1,23 @@
 body{
     background-color: lightblue;
+    font-family:Verdana;
 }
 #tableWrapper{
     max-width: 90%;
     padding-left: 5%;
+}
+.table{
+    
+    background-color: lightslategrey;
+    color: white;
+}
+#toDoNote{
+    max-width: 50%;
+}
+#noteWrap{
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    min-width: 90%;
 }
