@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool')
 
+
+
 // POST - CREATE
-app.post('/', (req, res)=>{
+router.post('/', (req, res)=>{
     // define query text
  
     // add log information to help with troubleshooting
@@ -13,7 +15,7 @@ app.post('/', (req, res)=>{
 })
 
 // GET - READ
-app.get('/', (req, res)=>{
+router.get('/', (req, res)=>{
     // define query text
     let queryText = `SELECT * FROM "toDoList";`
     // add log information to help with troubleshooting
@@ -29,15 +31,22 @@ app.get('/', (req, res)=>{
 });
 
 // PUT - UPDATE
-app.put()('/done/:id', (req, res)=>{
-    // define query text
-    // add log information to help with troubleshooting
-    // define pool request
-    //add catch
+router.put('/done/:id', (req, res)=>{
+    console.log('/todo/done/:id PUT request call started');
+    
+    let queryText = `UPDATE "toDoList" SET "done" = 'true' WHERE "id" = $1;`
+
+    pool.query(queryText, [req.params.id]).then((result)=>{
+        console.log('result from put', result);
+        res.sendStatus(200);
+    }).catch((error)=>{
+        console.log('error from POST', error);
+        res.sendStatus(500)
+    });
 })
 
 // DELETE - DELETE 
-app.delete('/:id', (req, res)=>{
+router.delete('/:id', (req, res)=>{
     console.log('/todo/:id DELETE express call started');
     // define query text
     let recordID = req.params.id // define item ID parameter
