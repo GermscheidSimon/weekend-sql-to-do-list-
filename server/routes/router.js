@@ -6,13 +6,22 @@ const pool = require('../modules/pool')
 
 // POST - CREATE
 router.post('/', (req, res)=>{
-    // define query text
- 
-    // add log information to help with troubleshooting
+    console.log('toDo POST request started');
     
+    let itemToDo = req.body.itemToDo
+    let queryText = `INSERT INTO "toDoList" ("itemToDo")
+                     VALUES ($1);`;
+    pool.query(queryText, [itemToDo]).then((result)=>{
+        console.log('result from POST', result.rowCount, 'rows inserted');
+        res.sendStatus(201);
+    }).catch((error)=>{
+        console.log('error from POST', error);
+        res.sendStatus(500)
+    });
+    // add log information to help with troubleshooting
     // define pool request
     //add catch
-})
+});
 
 // GET - READ
 router.get('/', (req, res)=>{
@@ -50,7 +59,7 @@ router.put('/done/:id', (req, res)=>{
         console.log('error from POST', error);
         res.sendStatus(500)
     });
-})
+});
 
 // DELETE - DELETE 
 router.delete('/:id', (req, res)=>{

@@ -27,6 +27,7 @@ function getListToDo() {
     });
     // callback append to DOM function
 }
+
 // this function will append items to the dom whenever the client makes a change
 function appendToDom(data) {
     console.log(data);
@@ -43,10 +44,8 @@ function appendToDom(data) {
             `
         )
     });
-
-    
-
 }
+
 // this function will create an ajax request to delete an item from the DB
 // then call back the get function and append function to update the DOM
 function deleteItem() {
@@ -81,7 +80,7 @@ function addToDo() {
     let recordObj = {  
         itemToDo: noteInput
     } // this obj contains the information required to add this item to SQL DB
-
+    console.log('creating POST request to add item');
     $.ajax({
         method: 'POST',
         url: 'toDo',
