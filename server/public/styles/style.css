@@ -1,3 +1,7 @@
 body{
     background-color: lightblue;
 }
+#tableWrapper{
+    max-width: 90%;
+    padding-left: 5%;
+}

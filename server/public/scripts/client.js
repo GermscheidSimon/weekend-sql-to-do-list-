@@ -28,34 +28,51 @@ function getListToDo() {
 // this function will append items to the dom whenever the client makes a change
 function appendToDom(data) {
     console.log(data);
+    let tableRow = $('#output')
+    data.forEach(element => {
+        tableRow.append(
+            `
+            <tr>
+            <td>${element.itemToDo}</td>
+            <td>${element.done}</td>
+            </tr>
+            
+            `
+        )
+    });
+
+    
+
 }
 // this function will create an ajax request to delete an item from the DB
 // then call back the get function and append function to update the DOM
-function deleteItem(params) {
+function deleteItem() {
     $.ajax({
         method: 'DELETE',
         url: `/todo/${id}`
     }).then( (reponse) => {
         console.log('response from DELETE request', reponse);
+        getListToDo()
     }).catch( (error) =>{
         console.log('error from DELETE request', error);
     });
 }
 // this function will create and ajax request to update the "done" column for a given to do item
 // then call back the get function and append function to update the DOM
-function toDone(params) {
+function toDone() {
     $.ajax({
         method: 'PUT',
         url: `/done/${id}`
     }).then( (response) => {
         console.log('response from PUT request', response);
+        getListToDo()
     }).catch( (error) => {
         console.log('error from PUT request', error);
     });
 }
 // this function will create a POST ajax request to add a new record to the database 
 // then call back the get function and append function to update the DOM
-function addToDo(params) {
+function addToDo() {
 
     let toDoItem = {
 
@@ -67,6 +84,7 @@ function addToDo(params) {
         data: toDoItem
     }).then( (response) => {
         console.log('response from POST request', response);
+        getListToDo()
     }).catch( (error) => {
         console.log('error from POST request', error); 
     })
