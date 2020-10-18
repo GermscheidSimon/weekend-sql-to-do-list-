@@ -66,7 +66,7 @@ router.delete('/:id', (req, res)=>{
     console.log('/todo/:id DELETE express call started');
     // define query text
     let recordID = req.params.id // define item ID parameter
-    let queryText = `DELETE FROM "todoList" WHERE "id" = $1`
+    let queryText = `DELETE FROM "toDoList" WHERE "id" = $1`
     // add log information to help with troubleshooting
     pool.query(queryText, [recordID]).then((result)=>{
         console.log('Delete success!');

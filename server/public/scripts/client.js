@@ -11,6 +11,7 @@ function onReady() {
     $('#submitItem').on('click', addToDo)
     // click listener for complete task. 
     $('#output').on('click', '.mkDone', getCompStatus);
+    $('#output').on('click', '.delBtn', deleteItem)
     // click listen for delete option
 }
 
@@ -20,7 +21,6 @@ function getListToDo() {
         method: 'GET',
         url: '/toDo'
     }).then( (response) => {
-        console.log('toDo GET request', response );
         appendToDom(response);
     }).catch( (error) => {
         console.log('toDo error in GET request', error);
@@ -39,7 +39,7 @@ function appendToDom(data) {
             <tr data-done='${element.done}' data-id='${element.id}'>
                 <td>${element.itemToDo}</td>
                 <td>${element.done} </td>
-                <td><button class="mkDone">Mark Done</button></td>
+                <td><button class="mkDone">Mark Done</button><button class="delBtn">Delete</button></td>
             </tr>
             `
         )
@@ -49,9 +49,10 @@ function appendToDom(data) {
 // this function will create an ajax request to delete an item from the DB
 // then call back the get function and append function to update the DOM
 function deleteItem() {
+    let idOfItem = $(this).closest('tr').data('id');
     $.ajax({
         method: 'DELETE',
-        url: `/todo/${id}`
+        url: `/todo/${idOfItem}`
     }).then( (reponse) => {
         console.log('response from DELETE request', reponse);
         getListToDo()
