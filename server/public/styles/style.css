@@ -8,3 +8,16 @@ body{
 .table{
     background-color: lightslategrey;
 }
+#toDoNote{
+    max-width: 50%;
+}
+#noteWrap{
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    min-width: 90%;
+}
+#notewrap div{
+    min-width: 1000px;
+}
